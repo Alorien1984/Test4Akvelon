@@ -30,7 +30,7 @@ namespace HashTable1
         public void Insert(T1 key, T2 value)
         {
             var item = new HashTableItem<T1, T2>(key, value);
-            var hashOfKey = GetHashCode(key.ToString());
+            var hashOfKey = GetHashCode(key);
 
             if (items.Any(x=> x.Key == hashOfKey))
             {
@@ -61,7 +61,7 @@ namespace HashTable1
         /// <param name="key">The key.</param>
         public void Delete(T1 key)
         {
-            var hashOfKey = GetHashCode(key.ToString());
+            var hashOfKey = GetHashCode(key);
             if (items.All(x => x.Key != hashOfKey))
             {
                 return;
@@ -82,7 +82,7 @@ namespace HashTable1
         /// <param name="key">The key.</param>
         public void Search(T1 key)
         {
-            var hashOfKey = GetHashCode(key.ToString());
+            var hashOfKey = GetHashCode(key);
             if (items.All(x => x.Key != hashOfKey))
             {
                 Console.WriteLine($"Element by key: {key} not found!");
@@ -124,9 +124,18 @@ namespace HashTable1
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        private int GetHashCode(string key)
+        private int GetHashCode(T1 key)
         {
-            return key.Length;
+            var KeyType = Type.GetTypeCode(typeof(T1));
+            switch (KeyType)
+            {
+                case TypeCode.String:
+                    return key.ToString().Length;
+                case TypeCode.Int32:
+                    return Convert.ToInt32(key) % _size;
+                default:
+                    return key.ToString().Length;
+            }     
         }
     }
 }

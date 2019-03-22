@@ -26,7 +26,17 @@ namespace HashTable1
             Console.WriteLine("|| after delete 1 element ||");
             hashTable.ShowHashTable();
 
+            var hashTableInt = new MyHashtable<int, int>(255);
+            Random rand = new Random();
+            for (var i = 0; i < 10000; i++)
+            {
+                hashTableInt.Insert(rand.Next(255, 10001), rand.Next(0, 1500));
+            }
+            Console.WriteLine("|| ***************** ||");
+            Console.WriteLine("|| ***************** ||");
+            hashTableInt.ShowHashTable();
             Console.ReadKey();
+
         }
     }
 }
