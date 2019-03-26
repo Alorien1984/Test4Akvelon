@@ -13,12 +13,12 @@ namespace HashTable1
         /// <summary>
         /// The collection of elements hashtable.
         /// </summary>
-        private IEnumerable<KeyValuePair<int, List<HashTableItem<T1, T2>>>> items;
+        private IEnumerable<KeyValuePair<UInt64, List<HashTableItem<T1, T2>>>> items;
 
         public MyHashtable(int size)
         {
             _size = size;
-            items = new List<KeyValuePair<int, List<HashTableItem<T1, T2>>>>();
+            items = new List<KeyValuePair<UInt64, List<HashTableItem<T1, T2>>>>();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace HashTable1
             else
             {
                 var newItem = new List<HashTableItem<T1, T2>> {item};
-                var newElement = new KeyValuePair<int, List<HashTableItem<T1, T2>>>(hashOfKey, newItem);
+                var newElement = new KeyValuePair<UInt64, List<HashTableItem<T1, T2>>>(hashOfKey, newItem);
 
                 var items2 = items.ToList();
                 items2.Add(newElement);
@@ -124,17 +124,30 @@ namespace HashTable1
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        private int GetHashCode(T1 key)
+        private UInt64 GetHashCode(T1 key)
         {
             var KeyType = Type.GetTypeCode(typeof(T1));
+            ulong hashedValue;
             switch (KeyType)
             {
                 case TypeCode.String:
-                    return key.ToString().Length;
+                    hashedValue = 3074457345618258791ul;
+                    for (int i = 0; i < key.ToString().Length; i++)
+                    {
+                        hashedValue += key.ToString()[i];
+                        hashedValue *= 3074457345618258799ul;
+                    }
+                    return hashedValue;
                 case TypeCode.Int32:
-                    return Convert.ToInt32(key) % _size;
+                    hashedValue = 3074457345618258791ul;
+                    for (int i = 0; i < key.ToString().Length; i++)
+                    {
+                        hashedValue += key.ToString()[i];
+                        hashedValue *= 3074457345618258799ul;
+                    }
+                    return hashedValue;
                 default:
-                    return key.ToString().Length;
+                    return 0;
             }     
         }
     }

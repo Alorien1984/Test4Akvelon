@@ -26,17 +26,47 @@ namespace HashTable1
             Console.WriteLine("|| after delete 1 element ||");
             hashTable.ShowHashTable();
 
-            var hashTableInt = new MyHashtable<int, int>(255);
+            var hashTableInt = new MyHashtable<int, int>(10000);
             Random rand = new Random();
-            for (var i = 0; i < 10000; i++)
+            for (var i = 0; i < 1000; i++)
             {
-                hashTableInt.Insert(rand.Next(255, 10001), rand.Next(0, 1500));
+                hashTableInt.Insert(rand.Next(255, 10000), rand.Next(0, 1500));
             }
             Console.WriteLine("|| ***************** ||");
             Console.WriteLine("|| ***************** ||");
             hashTableInt.ShowHashTable();
             Console.ReadKey();
 
+            HashSet<Spiders> KazanTerrarium = new HashSet<Spiders>();
+            HashSet<Spiders> MoscowTerrarium = new HashSet<Spiders>();
+
+            var spider1 = new Spiders(Suborders.Mesothelae, SpidersFamilies.Liphistiidae, Gender.Female, 20, "today");
+            var spider2 = new Spiders(Suborders.Araneomorphae, SpidersFamilies.Liphistiidae, Gender.Female, 20, "today");
+            var spider3_1 = new Spiders(Suborders.Mesothelae, SpidersFamilies.Liphistiidae, Gender.Female, 10, "yesterday");
+            var spider4_2 = new Spiders(Suborders.Araneomorphae, SpidersFamilies.Liphistiidae, Gender.Female, 20, "yesterday");
+            KazanTerrarium.Add(spider1);
+            KazanTerrarium.Add(spider2);
+            KazanTerrarium.Add(spider3_1);
+
+            MoscowTerrarium.Add(spider4_2);
+
+            Console.WriteLine("*** Kazan Terrarium ***");
+            foreach (var spider in KazanTerrarium)
+            {
+                Console.WriteLine(spider.GetHashCode());
+            }
+            Console.WriteLine("*** **** ***");
+            Console.ReadKey();
+
+            KazanTerrarium.IntersectWith(MoscowTerrarium);
+
+            Console.WriteLine("*** Kazan Terrarium ***");
+            foreach (var spider in KazanTerrarium)
+            {
+                Console.WriteLine(spider.GetHashCode());
+            }
+            Console.WriteLine("*** **** ***");
+            Console.ReadKey();
         }
     }
 }
