@@ -39,7 +39,6 @@
             }
 
             var success = false;
-
             if (item != null)
             {
                 Console.WriteLine($"File {indexOfImage} was downloaded");
