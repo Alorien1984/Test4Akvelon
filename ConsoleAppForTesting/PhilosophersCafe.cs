@@ -1,4 +1,4 @@
-﻿namespace ConsoleAppForTesting
+﻿namespace MultiThreading
 {
     using System.Threading;
 
@@ -36,11 +36,15 @@
             timeForPhilosopherLunch = timeForLunch;
             timeForPhilosopherThink = timeForThink;
             this.countOfLunchIntake = countOfLunchIntake;
+        }
 
+        /// <summary>Starts the dinner.</summary>
+        public void StartDinner()
+        {
             for (var indexOfPhilosopher = 0; indexOfPhilosopher < countOfPhilosophers; indexOfPhilosopher++)
             {
-                Philosophers[indexOfPhilosopher] = new Thread(TimeToDinner);
-                forks[indexOfPhilosopher] = new SemaphoreSlim(1,1);
+                Philosophers[indexOfPhilosopher] = new Thread(StartLunchForCurrentPhilosopher);
+                forks[indexOfPhilosopher] = new SemaphoreSlim(1, 1);
                 StatesOfPhilosophers[indexOfPhilosopher] += $"Philosopher# {indexOfPhilosopher} is coming into cafe || ";
                 Philosophers[indexOfPhilosopher].IsBackground = true;
                 Philosophers[indexOfPhilosopher].Start(indexOfPhilosopher);
@@ -49,7 +53,7 @@
 
         /// <summary>Starts the dinner for current philosopher.</summary>
         /// <param name="indexOfPhilosopher">The index of philosopher.</param>
-        void TimeToDinner(object indexOfPhilosopher)
+        void StartLunchForCurrentPhilosopher(object indexOfPhilosopher)
         {
             var index = (int) indexOfPhilosopher;
             var repeatLunch = countOfLunchIntake;
